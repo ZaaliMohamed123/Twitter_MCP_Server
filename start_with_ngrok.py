@@ -95,7 +95,6 @@ def main():
     # Start the MCP server
     try:
         from twitter_mcp_server import mcp
-        from config import SERVER_HOST, SERVER_PORT
         import uvicorn
         uvicorn.run(mcp.streamable_http_app(), host=SERVER_HOST, port=SERVER_PORT)
     except KeyboardInterrupt:
