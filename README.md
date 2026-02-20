@@ -94,8 +94,8 @@ After starting the server, you'll see configuration details like:
   Description: Post tweets and threads to Twitter/X
 
   Endpoints:
-    SSE: https://abc123.ngrok.io/sse
-    MCP: https://abc123.ngrok.io/mcp
+    SSE: https://abc123.ngrok-free.app/sse
+    MCP: https://abc123.ngrok-free.app/mcp
 
   Headers (JSON):
   {
@@ -103,6 +103,8 @@ After starting the server, you'll see configuration details like:
     "Accept": "application/json, text/event-stream"
   }
 ```
+
+> **Important:** Make sure to use the full endpoint URL including `/mcp` or `/sse` path. Requests to the root URL `/` will return 404.
 
 Use these values in your MCP client or low-code platform.
 
