@@ -49,7 +49,8 @@ def main():
     # Start ngrok tunnel
     print(f"[3/4] Starting ngrok tunnel on port {SERVER_PORT}...")
     try:
-        public_url = ngrok.connect(SERVER_PORT, "http")
+        tunnel = ngrok.connect(SERVER_PORT, "http")
+        public_url = tunnel.public_url  # Extract just the URL string
         print(f"      Tunnel established: {public_url}")
     except Exception as e:
         print(f"      ERROR: Failed to start ngrok: {e}")
@@ -99,7 +100,7 @@ def main():
         uvicorn.run(mcp.streamable_http_app(), host=SERVER_HOST, port=SERVER_PORT)
     except KeyboardInterrupt:
         print("\nShutting down...")
-        ngrok.disconnect(public_url)
+        ngrok.disconnect(tunnel.public_url)
         ngrok.kill()
         print("Server stopped.")
 
