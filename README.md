@@ -34,12 +34,51 @@ pip install -r requirements.txt
 
 ### 2. Configure Twitter API Credentials
 
+#### Step 1: Create a Twitter Developer Account
 1. Go to [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard)
-2. Create a new Project and App
-3. In **User authentication settings**, enable **OAuth 1.0a** with **Read and Write** permissions
-4. Generate your API keys and Access tokens
+2. Sign in with your Twitter/X account
+3. Apply for a developer account if you don't have one
 
-Create a `.env` file in the project root:
+#### Step 2: Create a Project and App
+1. Click **+ Create Project**
+2. Enter a project name (e.g., `TrendToThread`)
+3. Select a use case (e.g., `Building tools for Twitter users`)
+4. Enter a project description (minimum 250 characters):
+   ```
+   Building an AI-powered content automation tool that researches trending topics, generates engaging Twitter threads, and publishes them automatically. The app helps creators and marketers save time by transforming news into social media content.
+   ```
+5. Create an **App** within the project
+
+#### Step 3: Configure User Authentication (Important!)
+1. In your App, go to **Settings** tab
+2. Scroll to **User authentication settings** and click **Set up**
+3. Configure as follows:
+
+| Setting | Value |
+|---------|-------|
+| **App permissions** | **Read and write** (Required for posting tweets!) |
+| **Type of App** | Web App, Automated App or Bot |
+| **Callback URI** | `https://localhost:8000/callback` |
+| **Website URL** | `https://github.com/ZaaliMohamed123/Twitter_MCP_Server` |
+
+4. Click **Save**
+
+> **Warning:** If you skip setting "Read and write" permissions, you'll get a `403 Forbidden` error when trying to post tweets!
+
+#### Step 4: Get Your API Keys
+1. Go to **Keys and Tokens** tab
+2. Copy these credentials:
+
+| Credential | Location in Developer Portal |
+|------------|------------------------------|
+| `TWITTER_API_KEY` | API Key and Secret → API Key |
+| `TWITTER_API_SECRET` | API Key and Secret → API Secret |
+| `TWITTER_ACCESS_TOKEN` | Access Token and Secret → Access Token |
+| `TWITTER_ACCESS_TOKEN_SECRET` | Access Token and Secret → Access Token Secret |
+
+> **Note:** If you changed permissions after generating tokens, you must click **Regenerate** to get new Access Token and Secret!
+
+#### Step 5: Create your `.env` file
 
 ```bash
 cp .env.example .env
@@ -313,10 +352,29 @@ ngrok config add-authtoken YOUR_TOKEN
 ```
 Or add `NGROK_AUTH_TOKEN` to your `.env` file.
 
-### Twitter API 403 Forbidden
-- Ensure your Twitter App has **Read and Write** permissions
-- Regenerate Access Token after changing permissions
-- Check your Twitter account is not suspended
+### Twitter API 403 Forbidden - "Client Forbidden"
+This error means your app is not attached to a Project:
+```
+"detail": "When authenticating requests to the Twitter API v2 endpoints, you must use keys and tokens from a Twitter developer App that is attached to a Project."
+```
+**Fix:** Go to Twitter Developer Portal and ensure your App is inside a Project.
+
+### Twitter API 403 Forbidden - "OAuth1 Permissions"
+This error means your app doesn't have write permissions:
+```
+"detail": "Your client app is not configured with the appropriate oauth1 app permissions for this endpoint."
+```
+**Fix:**
+1. Go to your App → Settings → User authentication settings
+2. Set App permissions to **Read and write**
+3. Save changes
+4. Go to Keys and Tokens → **Regenerate** Access Token and Secret
+5. Update your `.env` file with the new tokens
+
+### Twitter API 401 Unauthorized
+- Your API keys or tokens are invalid
+- Regenerate all keys in the Developer Portal
+- Make sure you're copying the full key without extra spaces
 
 ### Port already in use
 ```bash
