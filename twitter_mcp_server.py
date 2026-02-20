@@ -228,14 +228,13 @@ def main():
     print(f"Server running on http://{SERVER_HOST}:{SERVER_PORT}")
     print()
     print("Endpoints:")
-    print(f"  SSE:  http://{SERVER_HOST}:{SERVER_PORT}/sse")
     print(f"  MCP:  http://{SERVER_HOST}:{SERVER_PORT}/mcp")
+    print(f"  SSE:  http://{SERVER_HOST}:{SERVER_PORT}/sse")
     print()
     print("Use ngrok to expose publicly: ngrok http 8000")
     print()
     
-    # Use streamable HTTP app which provides /mcp endpoint
-    # SSE is also available at /sse by default
+    # Run with default MCP paths - the streamable_http_app handles /mcp
     uvicorn.run(mcp.streamable_http_app(), host=SERVER_HOST, port=SERVER_PORT)
 
 
